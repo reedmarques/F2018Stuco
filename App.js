@@ -7,8 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
 import Header from './src/components/Header';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -19,19 +20,57 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  state = {
+    data: []
+  }
+
+  componentWillMount() {
+    this.populateData()
+  }
+
+  populateData() {
+    this.setState({data: [
+      {
+        id: 1,
+        name: 'Reed'
+      },
+      {
+        id: 2,
+        name: 'Elon'
+      }
+    ]})
+  }
+
+  _renderItem = ({item}) => (
+    <View style={styles.CellContainer}>
+      <View style={styles.CellInnerCont}>
+
+        <Text style={styles.CellText}>
+          Name: {item.name}
+        </Text>
+        <Text style={styles.CellText}>
+          ID: {item.id}
+        </Text>
+      </View>
+
+
+      <Icon style={styles.icon} name='add' size={30} color='black'/>
+    </View>
+  )
+
+  _keyExtractor = (item, index) => item.id;
+
+
   render() {
     return (
       <View style={styles.container}>
         <Header />
-        <View style={styles.secondContainer}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
-          <Text style={styles.bottomText}>BOTTOM</Text>
-        </View>
-        <View style={styles.thirdContainer}>
-          <Text style={styles.bottomText}>BOTTOM</Text>
-        </View>
+        <FlatList
+          data={this.state.data}
+          renderItem={this._renderItem}
+          keyExtractor={this._keyExtractor}
+        />
 
       </View>
     );
@@ -68,6 +107,33 @@ const styles = StyleSheet.create({
   bottomText:{
     fontSize: 30,
     color:'red'
+  },
+
+
+  CellContainer:{
+    flex:1,
+    flexDirection:'row',
+    padding: 20,
+    justifyContent:'space-between',
+    alignItems:'center',
+    // backgroundColor:'red'
+  },
+  CellText:{
+    // fontSize:20,
+    alignItems:'center',
+    justifyContent:'center',
+    fontStyle: 'italic',
+
+  },
+  CellInnerCont:{
+    flexDirection:'row'
+  },
+  icon:{
+    justifyContent:'center',
+    alignItems:'center'
   }
+
+
+
 
 });
