@@ -8,9 +8,8 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
-import Header from './src/components/Header';
+import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Root } from './src/config/router';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,11 +19,60 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class Screen2 extends Component<Props> {
+
+  state = {
+    data: []
+  }
+
+  componentWillMount() {
+    this.populateData()
+  }
+
+  populateData() {
+    this.setState({data: [
+      {
+        id: 1,
+        name: 'Reed'
+      },
+      {
+        id: 2,
+        name: 'Elon'
+      }
+    ]})
+  }
+
+  _renderItem = ({item}) => (
+    <View style={styles.CellContainer}>
+      <View style={styles.CellInnerCont}>
+
+        <Text style={styles.CellText}>
+          Name: {item.name}
+        </Text>
+        <Text style={styles.CellText}>
+          ID: {item.id}
+        </Text>
+      </View>
+
+
+      <Icon style={styles.icon} name='add' size={30} color='black'/>
+    </View>
+  )
+
+  _keyExtractor = (item, index) => item.id;
+
 
   render() {
     return (
-      <Root />
+      <View style={styles.container}>
+        <Header />
+        <FlatList
+          data={this.state.data}
+          renderItem={this._renderItem}
+          keyExtractor={this._keyExtractor}
+        />
+
+      </View>
     );
   }
 }
@@ -34,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'black',
   },
   secondContainer:{
     flex:1,
