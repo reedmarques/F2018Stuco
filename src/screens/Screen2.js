@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
 import Header from '../components/Header';
+import {SafeAreaView} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const instructions = Platform.select({
@@ -64,25 +65,31 @@ export default class Screen2 extends Component<Props> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header />
-        <FlatList
-          data={this.state.data}
-          renderItem={this._renderItem}
-          keyExtractor={this._keyExtractor}
-        />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <Header title='Screen2' navigation={this.props.navigation}/>
+          <FlatList
+            data={this.state.data}
+            renderItem={this._renderItem}
+            keyExtractor={this._keyExtractor}
+          />
 
-      </View>
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  safeArea:{
+    flex:1,
+    backgroundColor:'white'
+  },
   container: {
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#F5FCFF',
   },
   secondContainer:{
     flex:1,
