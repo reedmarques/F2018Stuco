@@ -27,53 +27,20 @@ export default class Screen2 extends Component<Props> {
   }
 
   componentWillMount() {
-    this.populateData()
+    console.log('navObj',this.props.navigation.state.params.item)
   }
-
-  populateData() {
-    this.setState({data: [
-      {
-        id: 1,
-        name: 'Reed'
-      },
-      {
-        id: 2,
-        name: 'Elon'
-      }
-    ]})
-  }
-
-  _renderItem = ({item}) => (
-    <View style={styles.CellContainer}>
-      <View style={styles.CellInnerCont}>
-
-        <Text style={styles.CellText}>
-          Name: {item.name}
-        </Text>
-        <Text style={styles.CellText}>
-          ID: {item.id}
-        </Text>
-      </View>
-
-
-      <Icon style={styles.icon} name='add' size={30} color='black'/>
-    </View>
-  )
-
-  _keyExtractor = (item, index) => item.id;
 
 
   render() {
+    const person = this.props.navigation.state.params.item
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
-          <Header title='Screen2' navigation={this.props.navigation}/>
-          <FlatList
-            data={this.state.data}
-            renderItem={this._renderItem}
-            keyExtractor={this._keyExtractor}
-          />
-
+          <Header title={person.name} navigation={this.props.navigation}/>
+          <Text>
+            {`Age: ${person.age}`}
+            {`DoB: ${person.dob}`}
+          </Text>
         </View>
       </SafeAreaView>
     );

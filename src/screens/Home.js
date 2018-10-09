@@ -7,10 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import Header from '../components/Header';
 import {SafeAreaView} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {ListItem} from 'react-native-elements';
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -31,35 +33,27 @@ export default class Home extends Component<Props> {
   }
 
   populateData() {
-    this.setState({data: [
-      {
-        id: 1,
-        name: 'Reed'
-      },
-      {
-        id: 2,
-        name: 'Elon'
-      }
-    ]})
+    fetch('https://api.myjson.com/bins/bphek')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('respJson', responseJson);
+      this.setState({data: responseJson.Birthdays})
+      return responseJson.Birthdays
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   _renderItem = ({item}) => (
-    <View style={styles.CellContainer}>
-      <View style={styles.CellInnerCont}>
-
-        <Text style={styles.CellText}>
-          Name: {item.name}
-        </Text>
-        <Text style={styles.CellText}>
-          ID: {item.id}
-        </Text>
-      </View>
-
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Screen2')}>
-        <Icon style={styles.icon} name='add' size={30} color='black'/>
-      </TouchableOpacity>
-
-    </View>
+    <ListItem
+      onPress={() => this.props.navigation.navigate('Screen2', {item})}
+      title={item.name}
+      subtitle={`Age: ${item.age}`}
+      subtitleStyle={{fontStyle:'italic', fontWeight:'300'}}
+      leftIcon = {item.havePic == 0 && <Icon name='person' size = {30} color='red'/>}
+      avatar = {item.havePic == 1 && <Image style={{width:30, height:30, borderRadius: 15}} source={{uri: 'https://images.vice.com/vice/images/articles/meta/2016/11/03/kazakhstan-borat-1478184247.jpg?crop=1xw%3A0.8562062937062938xh%3Bcenter%2Ccenter&resize=1050%3A*&output-quality=55'}}/>}
+    />
   )
 
   _keyExtractor = (item, index) => item.id;
