@@ -27,7 +27,12 @@ export default class Header extends Component<Props> {
         <Text style={styles.title}>
           {this.props.title}
         </Text>
+        {this.props.title != 'Home' ?
         <Icon name='menu' size={30} color='transparent'/>
+        :
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddContact')}>
+          <Icon name='add' size={30} color='blue'/>
+        </TouchableOpacity>}
       </View>
     );
   }

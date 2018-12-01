@@ -8,9 +8,12 @@ import Screen3 from '../screens/Screen3'
 import Screen4 from '../screens/Screen4'
 import Screen5 from '../screens/Screen5'
 import Screen6 from '../screens/Screen6'
+import AddContact from '../screens/AddContact'
 
 const BGC = 'white'
 const tintColor = 'red'
+
+
 
 
 export const HomeStack = createStackNavigator({
@@ -24,10 +27,22 @@ export const HomeStack = createStackNavigator({
   headerMode: 'none'
 })
 
+export const HomeStackOuter = createStackNavigator({
+  Home:{
+    screen: HomeStack
+  },
+  AddContact: {
+    screen: AddContact
+  }
+}, {
+  headerMode:'none',
+  mode: 'modal',
+})
+
 
 export const TabNav = createBottomTabNavigator({
   Home: {
-    screen: HomeStack,
+    screen: HomeStackOuter,
     navigationOptions: {
       tabBarLabel: null,
       tabBarIcon: <Icon name="ios-square" size={30} color={`${tintColor}`}/>
