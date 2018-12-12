@@ -31,7 +31,7 @@ export default class Home extends Component<Props> {
 
   componentWillMount() {
     this.populateData()
-    this.checkPlatform()
+    // this.checkPlatform()
   }
 
   checkPlatform(){
@@ -55,6 +55,9 @@ export default class Home extends Component<Props> {
       this.setState({data: temp})
     }).then(() => {
       this.setState({loading: false})
+    })
+    .catch((error) => {
+      console.log(error)
     })
 
   }

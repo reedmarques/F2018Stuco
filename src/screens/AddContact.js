@@ -31,6 +31,9 @@ export default class AddContact extends React.Component {
       ).then(() => {
         alert('Successfully added!')
       })
+      .catch((error) => {
+        console.log(error);
+      })
     } else {
       alert('Fill out all required fields!')
     }
